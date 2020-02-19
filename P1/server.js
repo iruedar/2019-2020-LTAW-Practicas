@@ -1,11 +1,11 @@
 const http = require('http');
 const PUERTO = 8080
 
-//-- Configurar el servidor. Cada vez que llegue una peteicion
-//-- se notifica en la consola
+//-- Configurar el servidor
 http.createServer( (req, res) => {
   console.log("---> Peticion recibida")
+  console.log("Recurso solicitado (URL): " + req.url)
 }).listen(PUERTO);
 
-console.log("Arrancando servidor...")
+console.log("Servidor corriendo...")
 console.log("Puerto: " + PUERTO)
