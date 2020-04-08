@@ -3,5 +3,14 @@ body{
   color: gray;
 }
 img{
-  width: 250px;
+  width: 85%;
+}
+span{
+  color: black;
+}
+.zapatillas {
+  width: 25%;
+  float: left;
+  position: static;
+  text-align: center;
 }
