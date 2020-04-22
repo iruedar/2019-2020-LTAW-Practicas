@@ -1,44 +1,75 @@
 const http = require('http');
 const url = require('url');
 const fs = require('fs');
-const PUERTO = 8080
-
-//-- Configurar y lanzar el servidor. Por cada peticion recibida
-//-- se imprime un mensaje en la consola
-http.createServer((req, res) => {
-  console.log("----------> Peticion recibida")
-  let q = url.parse(req.url, true);
-  console.log("Recurso:" + q.pathname)
+const PUERTO = 8081
 
 
-  let filename = ""
+console.log('Arrancando servidor...')
 
-  //-- Obtener fichero a devolver
+//-- Configurar el servidor
+http.createServer( (req, res) => {
+  console.log("---> Peticion recibida")
+  console.log("Recurso solicitado (URL): " + req.url)
+  var q = url.parse(req.url, true);
+  console.log("pathname:" + q.pathname)
+
+  //_- Crear el mensaje de respuesta. Primero la cabecera
+  //-- El código 200 se usa para indicar que todo está ok
+  //-- En el campo Content-Type tenemos que introducir el tipo MIME
+  //-- de lo que devolvemos
+  let mime = ""
+  let file_name = ""
   if (q.pathname == "/"){
-    filename += "index.html"
-  } else {
-    filename = q.pathname.substr(1)
+    file_name = "index.html"
+  }else{
+    file_name = q.pathname.substr(1)
+  }
+  let extension = file_name.split(".")[1]
+  
+  switch (extension) {
+    case "png":
+    case "jpg":
+    case "jpeg":
+    case "gif":
+      mime = "image/" + extension
+      break;
+    case "json":
+    case "js":
+      mime = "application/" + extension
+      break;
+    case "txt":
+    case "css":
+    case "html":
+      mime = "text/" + extension
+      break;
+    case "webm":
+    case "mpeg":
+      mime = "video/" + extension
+      break;
+    case "mpeg":
+    case "midi":
+      mime = "audio/" + extension
+      break;
+    default:
+      //
+  }
+  if (mime != ""){
+    res.writeHead(200, {'Content-Type': mime});
+  }else{
+    res.writeHead(404, {'Content-Type': "text/html"});
+    file_name = "error.html"
   }
 
-  //-- Leer fichero
-  fs.readFile(filename, function(err, data) {
-
-    //-- Fichero no encontrado. Devolver mensaje de error
-    if (err) {
-      res.writeHead(404, {'Content-Type': 'text/html'});
-      return res.end("404 Not Found");
-    }
-
-    //-- Tipo mime por defecto: html
-    let mime = ""
-
-    //-- Generar el mensaje de respuesta
-    res.writeHead(200, {'Content-Type': mime});
-    res.write(data);
-    res.end();
+  fs.readFile(file_name, (err,data)  => {
+      if (err) {
+        return res.end()
+      }
+      else { //-- Lectura normal, cuando no hay errores
+        res.write(data)
+        return res.end()
+      }
   });
 
 }).listen(PUERTO);
-
 console.log("Servidor corriendo...")
 console.log("Puerto: " + PUERTO)
