@@ -1,0 +1,17 @@
+{%extends "base.html"%}
+{%block content%}
+{%load staticfiles%}
+<form class="" action="carrito_cliente" method="post">
+    {% csrf_token %}
+    <label >Nombre: </label>
+    <input type="text" name="nombre" value="" required/>
+    <input type="submit" value="OK"/>
+</form>
+{%if registered%}
+    <p>Productos:</p>
+    <p>{{carrito|unordered_list}}</p>
+    <p>Total: {{precio}} €</p>
+{%endif%}
+<br>
+<a href="/mi_tienda">Volver a la pagina principal</a>
+{%endblock%}

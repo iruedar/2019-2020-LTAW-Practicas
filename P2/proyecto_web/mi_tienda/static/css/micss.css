@@ -1,0 +1,28 @@
+body{
+  background-color: white;
+  color: gray;
+}
+span{
+  color: black;
+}
+footer{
+  text-align: center;
+  background-color: gray;
+  margin-bottom: 1%;
+  margin-top: 1%;
+  padding-bottom: 1%;
+  padding-top: 1%;
+}
+form{
+  padding-top: 2%;
+  padding-bottom: 2%;
+}
+.zapatillas {
+  width: 25%;
+  float: left;
+  position: static;
+  text-align: center;
+  padding-bottom: 1%;
+  padding-top: 2%;
+  background-color: orange;
+}

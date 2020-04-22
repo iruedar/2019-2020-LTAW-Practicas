@@ -1,0 +1,12 @@
+{%extends "base.html"%}
+{%block content%}
+{%load staticfiles%}
+
+    {% for prod in productos %}
+    <div class="zapatillas">
+      <a href="{{prod.path}}"><img src="{% static prod.img %}" style= "width: 85%;"/></a>
+      <br>
+      <span>{{prod.nombre}}</span>
+    </div>
+    {% endfor %}
+{%endblock%}
