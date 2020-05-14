@@ -1,7 +1,7 @@
 const http = require('http');
 const url = require('url');
 const fs = require('fs');
-const PUERTO = 8081
+const PUERTO = 8080
 
 
 console.log('Arrancando servidor...')
@@ -25,7 +25,7 @@ http.createServer( (req, res) => {
     file_name = q.pathname.substr(1)
   }
   let extension = file_name.split(".")[1]
-  
+
   switch (extension) {
     case "png":
     case "jpg":
@@ -51,20 +51,17 @@ http.createServer( (req, res) => {
       mime = "audio/" + extension
       break;
     default:
-      //
-  }
-  if (mime != ""){
-    res.writeHead(200, {'Content-Type': mime});
-  }else{
-    res.writeHead(404, {'Content-Type': "text/html"});
-    file_name = "error.html"
+      mime = "text/html"
   }
 
   fs.readFile(file_name, (err,data)  => {
       if (err) {
+        res.writeHead(404, {'Content-Type': "text/html"});
+        res.write("<h1>Error 404: File not found</h1>")
         return res.end()
       }
       else { //-- Lectura normal, cuando no hay errores
+        res.writeHead(200, {'Content-Type': mime});
         res.write(data)
         return res.end()
       }
