@@ -2,7 +2,8 @@ const http = require('http');
 const url = require('url');
 const fs = require('fs');
 const PUERTO = 8080
-
+let productos = ["Adidas Top Sala", "Joma Top Flex", "Kelme Precision Elite", "Mizuno Morelia", "Munich Continental", "New Balance Audazo", "Nike Lunar Gato", "Puma Future"];
+let resultado = "";
 
 console.log('Arrancando servidor...')
 
@@ -22,9 +23,92 @@ http.createServer( (req, res) => {
   let file_name = ""
   if (q.pathname == "/"){
     file_name = "index.html"
+  }else if (q.pathname == "/myquery") {
+    //-- Leer los parámetros recibidos en la peticion
+    const params = q.query;
+
+    //-- No hacemos nada con ellos, simplemente los mostramos en
+    //-- la consola
+      console.log("Parametros: " + params.producto);
+
+    let prod_similar = [];
+    if (params.producto.length > 0) {
+      for (var i = 0; i < productos.length; i++) {
+        // -- Productos en minuscula e indexof --> si hay palabra parecida o no, si no hay =-1
+        if (productos[i].toLowerCase().indexOf(params.producto.toLowerCase()) != -1) {
+            prod_similar.push(productos[i]);
+            resultado = productos[i];
+        }
+      }
+    }
+    //-- El array de productos lo pasamos a una cadena de texto,
+    //-- en formato JSON:
+    content = JSON.stringify(prod_similar) + '\n';
+    //-- Generar el mensaje de respuesta
+    //-- IMPORTANTE! Hay que indicar que se trata de un objeto JSON
+    //-- en la cabecera Content-Type
+    res.setHeader('Content-Type', 'application/json')
+    res.write(content);
+    res.end();
+    return
+  }else if (q.pathname == "/myform") {
+    if (req.method === 'POST') {
+      req.on('data', chunk => {
+          //-- Leer los datos (convertir el buffer a cadena)
+          data = chunk.toString();
+          //-- Mostrar los datos en la consola del servidor
+          console.log("Datos recibidos: " + data)
+          console.log("Resultado: "+ resultado);
+          res.statusCode = 200;
+          switch (resultado) {
+            case "Adidas Top Sala":
+              file_name = "adidas_topsala.html";
+              break;
+            case "Joma Top Flex":
+              file_name = "joma_topflex.html";
+              break;
+            case "Kelme Precision Elite":
+              file_name = "kelme_precisionelite.html";
+              break;
+            case "Mizuno Morelia":
+              file_name = "mizuno_morelia.html";
+              break;
+            case "Munich Continental":
+              file_name = "munich_continental.html";
+              break;
+            case "New Balance Audazo":
+              file_name = "newbalance_audazo.html";
+              break;
+            case "Nike Lunar Gato":
+              file_name = "nike_lunargato.html";
+              break;
+            case "Puma Future":
+              file_name = "puma_future.html";
+              break;
+            default:
+              file_name = "";
+          }
+       });
+       req.on('end', ()=> {
+         fs.readFile(file_name, (err,data)  => {
+             if (err) {
+               res.writeHead(404, {'Content-Type': "text/html"});
+               res.write("<h1>Error 404: File not found</h1>")
+               return res.end()
+             }
+             else { //-- Lectura normal, cuando no hay errores
+               res.writeHead(200, {'Content-Type': mime});
+               res.write(data)
+               return res.end()
+             }
+         });
+       })
+       return
+    }
   }else{
-    file_name = q.pathname.substr(1)
+    file_name = q.pathname.substr(1);
   }
+
   let extension = file_name.split(".")[1]
 
   switch (extension) {
@@ -50,26 +134,23 @@ http.createServer( (req, res) => {
     case "mpeg":
     case "midi":
       mime = "audio/" + extension
-      break;
+      break
     default:
       //
-  }
-  if (mime != ""){
-    res.writeHead(200, {'Content-Type': mime});
-  }else{
-    res.writeHead(404, {'Content-Type': "text/html"});
-    file_name = "error.html"
-  }
-
+  };
   fs.readFile(file_name, (err,data)  => {
       if (err) {
+        res.writeHead(404, {'Content-Type': "text/html"});
+        res.write("<h1>Error 404: File not found</h1>")
         return res.end()
       }
       else { //-- Lectura normal, cuando no hay errores
+        res.writeHead(200, {'Content-Type': mime});
         res.write(data)
         return res.end()
       }
   });
+
 
 }).listen(PUERTO);
 console.log("Servidor corriendo...")

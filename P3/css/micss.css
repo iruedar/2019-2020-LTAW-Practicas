@@ -1,0 +1,51 @@
+header{
+  background-color: gray;
+  color: orange;
+  text-align: center;
+  font-size: 30px;
+  padding: 3px;
+  border-radius: 25px;
+}
+body{
+  background-color: orange;
+}
+img{
+  width: 85%;
+  border: 2px solid gray;
+  padding: 10px;
+  border-radius: 45px;
+}
+span{
+  color: black;
+}
+footer {
+  text-align: center;
+  padding: 3px;
+  background-color: gray;
+  color: white;
+  margin-top: 2%;
+  border-radius: 50px;
+}
+h3{
+  color: gray;
+}
+.zapatillas {
+  width: 25%;
+  text-align: center;
+  margin-bottom: 7%;
+  margin-top: 5%;
+}
+.zapatilla{
+  width: 800px;
+  height: 800px;
+  text-align: center;
+  margin-top: 5%;
+  margin-left: 10%;
+}
+.descripcion{
+  text-align: left;
+  border: 2px solid gray;
+  padding: 10px;
+  border-radius: 25px;
+  margin-left: 7%;
+}
