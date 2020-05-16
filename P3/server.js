@@ -4,6 +4,8 @@ const fs = require('fs');
 const PUERTO = 8080
 let productos = ["Adidas Top Sala", "Joma Top Flex", "Kelme Precision Elite", "Mizuno Morelia", "Munich Continental", "New Balance Audazo", "Nike Lunar Gato", "Puma Future"];
 let resultado = "";
+let name = "";
+let pwd = "";
 
 console.log('Arrancando servidor...')
 
@@ -16,7 +18,7 @@ http.createServer( (req, res) => {
 
   //-- Leer las cookies
   const cookie = req.headers.cookie;
-  console.log("Cookie: " + cookie);
+  console.log(cookie);
 
   // Leemos el index para URL vacía
   let mime = ""
@@ -53,57 +55,102 @@ http.createServer( (req, res) => {
     return
   }else if (q.pathname == "/myform") {
     if (req.method === 'POST') {
+      switch (resultado) {
+        case "Adidas Top Sala":
+          file_name = "adidas_topsala.html";
+          break;
+        case "Joma Top Flex":
+          file_name = "joma_topflex.html";
+          break;
+        case "Kelme Precision Elite":
+          file_name = "kelme_precisionelite.html";
+          break;
+        case "Mizuno Morelia":
+          file_name = "mizuno_morelia.html";
+          break;
+        case "Munich Continental":
+          file_name = "munich_continental.html";
+          break;
+        case "New Balance Audazo":
+          file_name = "newbalance_audazo.html";
+          break;
+        case "Nike Lunar Gato":
+          file_name = "nike_lunargato.html";
+          break;
+        case "Puma Future":
+          file_name = "puma_future.html";
+          break;
+        default:
+          file_name = "";
+      }
+      resultado = "";
+    }
+  }
+  else if (q.pathname == "/register") {
+    if (req.method === 'POST') {
       req.on('data', chunk => {
           //-- Leer los datos (convertir el buffer a cadena)
-          data = chunk.toString();
-          //-- Mostrar los datos en la consola del servidor
-          console.log("Datos recibidos: " + data)
-          console.log("Resultado: "+ resultado);
-          res.statusCode = 200;
-          switch (resultado) {
-            case "Adidas Top Sala":
-              file_name = "adidas_topsala.html";
+        data = chunk.toString();
+        name = data.split("=")[1].split("&")[0];
+        pwd = data.split("&")[1].split("=")[1];
+        user_new = true;
+        if (!cookie) {
+          res.setHeader('Set-Cookie', name+"="+pwd + "/");
+        }else {
+          for (var i = 0; i < cookie.split("; ").length; i++) {
+            if (cookie.split("; ")[i].split("=")[0] == name) {
+              user_new = false;
               break;
-            case "Joma Top Flex":
-              file_name = "joma_topflex.html";
-              break;
-            case "Kelme Precision Elite":
-              file_name = "kelme_precisionelite.html";
-              break;
-            case "Mizuno Morelia":
-              file_name = "mizuno_morelia.html";
-              break;
-            case "Munich Continental":
-              file_name = "munich_continental.html";
-              break;
-            case "New Balance Audazo":
-              file_name = "newbalance_audazo.html";
-              break;
-            case "Nike Lunar Gato":
-              file_name = "nike_lunargato.html";
-              break;
-            case "Puma Future":
-              file_name = "puma_future.html";
-              break;
-            default:
-              file_name = "";
+            }
           }
-       });
-       req.on('end', ()=> {
-         fs.readFile(file_name, (err,data)  => {
-             if (err) {
-               res.writeHead(404, {'Content-Type': "text/html"});
-               res.write("<h1>Error 404: File not found</h1>")
-               return res.end()
-             }
-             else { //-- Lectura normal, cuando no hay errores
-               res.writeHead(200, {'Content-Type': mime});
-               res.write(data)
-               return res.end()
-             }
-         });
-       })
-       return
+          if (user_new) {
+            res.setHeader('Set-Cookie', name+"="+pwd+ "/");
+          }
+        }
+        //-- Mostrar los datos en la consola del servidor
+        console.log("Datos recibidos: " + data)
+        res.statusCode = 200;
+        return
+      });
+      file_name = "index.html"
+    }
+  }else if (q.pathname == "/add_cart") {
+    if (req.method === 'POST') {
+      req.on('data', chunk => {
+          //-- Leer los datos (convertir el buffer a cadena)
+        data = chunk.toString();
+        prod = data.split("=")[0];
+        name = data.split("=")[1];
+        console.log(data);
+        user_new = true;
+        if (!cookie) {
+          file_name = "registro.html";
+        }else {
+          add_cart = "";
+          for (var i = 0; i < cookie.split("; ").length; i++) {
+            if (cookie.split("; ")[i].split("=")[0] == name) {
+              user_new = false;
+              add_cart = cookie.split("; ")[i].split("=")[1] += prod;
+              res.setHeader('Set-Cookie', name+"="+add_cart+ ";");
+              file_name = "index.html";
+            }
+          }
+          if (user_new) {
+            file_name = "registro.html";
+          }
+        }
+        //-- Mostrar los datos en la consola del servidor
+        console.log("Datos recibidos: " + data)
+        res.statusCode = 200;
+      });
+      req.on('end', () => {
+        fs.readFile(file_name, (err, data) => {
+          res.writeHead(200, {'Content-Type': "text/html"});
+          res.write(data);
+          return res.end();
+        })
+      });
+      return
     }
   }else{
     file_name = q.pathname.substr(1);
@@ -138,6 +185,7 @@ http.createServer( (req, res) => {
     default:
       //
   };
+
   fs.readFile(file_name, (err,data)  => {
       if (err) {
         res.writeHead(404, {'Content-Type': "text/html"});
@@ -150,8 +198,6 @@ http.createServer( (req, res) => {
         return res.end()
       }
   });
-
-
 }).listen(PUERTO);
 console.log("Servidor corriendo...")
 console.log("Puerto: " + PUERTO)
