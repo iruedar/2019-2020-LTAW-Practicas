@@ -1,13 +1,7 @@
-//-- Traza de prueba
-console.log("Hola!")
-
-//-- Obtener el botón de VER del DOM
 const ver = document.getElementById('ver')
-
-//-- Obtener el párrafo del DOM donde mostrar el resultado
 const resultado = document.getElementById('resultado');
 
-//-- Cuando el usuario aprieta el botón de ver los productos
+
 ver.onkeyup = ()=>{
 
   if (ver.value.length >= 3) {

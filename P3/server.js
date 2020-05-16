@@ -95,7 +95,7 @@ http.createServer( (req, res) => {
         pwd = data.split("&")[1].split("=")[1];
         user_new = true;
         if (!cookie) {
-          res.setHeader('Set-Cookie', name+"="+pwd + "/");
+          res.setHeader('Set-Cookie', name+"="+pwd + ":");
         }else {
           for (var i = 0; i < cookie.split("; ").length; i++) {
             if (cookie.split("; ")[i].split("=")[0] == name) {
@@ -104,7 +104,7 @@ http.createServer( (req, res) => {
             }
           }
           if (user_new) {
-            res.setHeader('Set-Cookie', name+"="+pwd+ "/");
+            res.setHeader('Set-Cookie', name+"="+pwd+ ":");
           }
         }
         //-- Mostrar los datos en la consola del servidor
@@ -121,7 +121,6 @@ http.createServer( (req, res) => {
         data = chunk.toString();
         prod = data.split("=")[0];
         name = data.split("=")[1];
-        console.log(data);
         user_new = true;
         if (!cookie) {
           file_name = "registro.html";
@@ -130,8 +129,8 @@ http.createServer( (req, res) => {
           for (var i = 0; i < cookie.split("; ").length; i++) {
             if (cookie.split("; ")[i].split("=")[0] == name) {
               user_new = false;
-              add_cart = cookie.split("; ")[i].split("=")[1] += prod;
-              res.setHeader('Set-Cookie', name+"="+add_cart+ ";");
+              add_cart = cookie.split("; ")[i].split("=")[1] += prod += "/";
+              res.setHeader('Set-Cookie', name+"="+add_cart);
               file_name = "index.html";
             }
           }
@@ -152,7 +151,122 @@ http.createServer( (req, res) => {
       });
       return
     }
-  }else{
+  }else if (q.pathname == "/mycart") {
+    if (req.method === 'POST') {
+      var content = ``;
+      req.on('data', chunk => {
+          //-- Leer los datos (convertir el buffer a cadena)
+        data = chunk.toString();
+        var name_client = data.split("&")[0].split("=")[1];
+        var surname = data.split("&")[1].split("=")[1];
+        var correo = data.split("&")[2].split("=")[1];
+        var pago = data.split("&")[3].split("=")[1];
+        var cart = "";
+        var carrito = "";
+        var productos = "";
+        user_new = true;
+        if (!cookie) {
+          file_name = "registro.html";
+        }else {
+          for (var i = 0; i < cookie.split("; ").length; i++) {
+            if (cookie.split("; ")[i].split("=")[0] == name_client) {
+              cart = cookie.split("; ")[i].split("=")[1].split(":")[1];
+              for (var i = 0; i < cart.split("/").length -1; i++) {
+                carrito = cart.split("/")[i];
+                switch (carrito) {
+                  case "AdidasTopSala":
+                    productos += "Adidas Top Sala<br>";
+                    break;
+                  case "JomaTopFlex":
+                    productos += "Joma Top Flex<br>";
+                    break;
+                  case "KelmePrecisionElite":
+                    productos += "Kelme Precisión Elite<br>";
+                    break;
+                  case "MizunoMorelia":
+                    productos += "Mizuno Morelia<br>";
+                    break;
+                  case "MunichContinental":
+                    productos += "Munich Continental<br>";
+                    break;
+                  case "NewBalanceAudazo":
+                    productos += "New Balance Audazo<br>";
+                    break;
+                  case "NikeLunarGato":
+                    productos += "Nike Lunar Gato<br>";
+                    break;
+                  case "PumaFuture":
+                    productos += "Puma Future<br>";
+                    break;
+                  default:
+                    //
+                }
+              }
+              user_new = false;
+              content = `
+              <!DOCTYPE html>
+              <html lang="es" dir="ltr">
+                <head>
+                  <meta charset="utf-8">
+                  <title>Mi tienda</title>
+                  <link rel="stylesheet" href="/css/micss.css">
+                </head>
+                <body>
+                  <header>
+                    <h1>Futsal store</h1>
+                  </header>
+                  <br>
+                  <div class="container">
+                    <div class="reg_tit">
+                      <h3>Ticket de compra:</h3>
+                    </div>
+                    <div class="">
+                      <p>`
+              content += 'Nombre: ' + name_client + "<br> Apellidos: "
+                          + surname + "<br> Email: " + correo
+                          + "<br>Forma de pago: " + pago
+                          + "<br>Tus productos son: <br>" + productos;
+              content +=
+                    `</p>
+                    </div>
+                  </div>
+                  <br><br>
+                  <a href="/">Volver a la pagina principal</a>
+                  <footer>
+                    <p>Contacto: 680935247</p>
+                    <p>Email: futsalstore@gmail.com</p>
+                    <a href="https://github.com/iruedar">Autor</a>
+                  </footer>
+                </body>
+              </html> `
+            }
+          }
+          if (user_new) {
+            file_name = "registro.html";
+          }
+        }
+        //-- Mostrar los datos en la consola del servidor
+        console.log("Datos recibidos: " + data)
+        res.statusCode = 200;
+      });
+      req.on('end', () => {
+        if (file_name == "registro.html") {
+          fs.readFile(file_name, (err, data) => {
+            res.writeHead(200, {'Content-Type': "text/html"});
+            res.write(data);
+            return res.end();
+          });
+        }else {
+          //-- Generar el mensaje de respuesta
+          res.setHeader('Content-Type', 'text/html')
+          res.write(content);
+          res.end();
+        }
+      });
+      return
+    }
+  }
+  else{
     file_name = q.pathname.substr(1);
   }
 
