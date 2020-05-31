@@ -10,7 +10,8 @@ const http = require('http').Server(app);
 const io = require('socket.io')(http);
 //-- Puerto donde lanzar el servidor
 const PORT = 8080
-var clients = 0
+var clients = 0;
+var users = {};
 
 //-- Lanzar servidor
 http.listen(PORT, function(){
@@ -33,24 +34,12 @@ app.use('/', express.static(__dirname +'/'));
 //-- Evento: Nueva conexion recibida
 //-- Un nuevo cliente se ha conectado!
 io.on('connection', function(socket){
-  io.emit('msg', 'SERVIDOR: Nuevo usuario conectado al chat');
-  clients += 1;
-  //-- Usuario conectado. Imprimir el identificador de su socket
-  console.log('Nuevo usuario conectado!. Socket id: ' + socket.id);
-  //-- Le damos la bienvenida a través del evento 'hello'
-  //-- ESte evento lo hemos creado nosotros para nuestro chat
-  socket.emit('hello', "Bienvenido al Chat, eres el usuario número " + clients.toString());
-  //-- Usuario desconectado. Imprimir el identificador de su socket
-  socket.on('disconnect', function(){
-    clients -= 1;
-    console.log('--> Usuario Desconectado. Socket id: ' + socket.id);
-  });
 
   //-- Función de retrollamada de mensaje recibido del cliente
   socket.on('msg', (msg) => {
     console.log("Cliente: " + socket.id + ': ' + msg);
     //-- Enviar el mensaje a TODOS los clientes que estén conectados
-    io.emit('msg', msg);
+    io.emit('msg', users[socket.id] + ": " + msg);
   });
 
   // -- Gestión comandos
@@ -63,7 +52,7 @@ io.on('connection', function(socket){
     }else if (msg == "/list") {
       mess += "Número de usuarios conectados = " + clients.toString();
     }else if (msg == "/hello") {
-      mess += "Hola a todos toditos"
+      mess += "SERVER: Hola " + users[socket.id];
     }else if (msg == "/date") {
       mess += new Date();
     }else {
@@ -71,5 +60,25 @@ io.on('connection', function(socket){
     }
     socket.emit('msg', mess);
     console.log("Cliente: " + socket.id + ': ' + msg);
+  });
+
+  // -- Registro cliente
+  socket.on('name', (msg) => {
+    clients += 1;
+    users[socket.id] =  msg;
+    io.emit('msg', 'SERVIDOR: ' + users[socket.id] + ' se ha conectado al chat');
+    //-- Usuario conectado. Imprimir el identificador de su socket
+    console.log('Nuevo usuario conectado!. Socket id: ' + socket.id);
+    //-- Le damos la bienvenida a través del evento 'hello'
+    //-- ESte evento lo hemos creado nosotros para nuestro chat
+    socket.emit('hello', "Bienvenido al Chat, eres el usuario número " + clients.toString());
+    //-- Usuario desconectado. Imprimir el identificador de su socket
+  })
+
+  // -- Cliente desconectado
+  socket.on('disconnect', function(){
+    clients -= 1;
+    io.emit('msg', 'SERVIDOR: ' + users[socket.id] + ' ha abandonado el chat');
+    console.log('--> Usuario Desconectado. Socket id: ' + socket.id);
   });
 });

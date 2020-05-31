@@ -4,6 +4,8 @@ console.log("Ejecutando cliente JS...");
 const display = document.getElementById("display");
 const msg = document.getElementById("msg");
 const send = document.getElementById("send");
+const name = document.getElementById("name_client");
+const register = document.getElementById("reg_client");
 
 //-- Crear un websocket. Se establece la conexión con el servidor
 const socket = io();
@@ -11,11 +13,9 @@ const socket = io();
 //-- Se ha recibido el evento 'hello':
 //-- Es el mensaje de bienvenida del servidor
 socket.on('hello', (msg) => {
-
   //-- Mostrarlo en la consola del navegador, para
   //-- depurar
   console.log("Mensaje del servidor: " + msg);
-
   //-- Ponerlo en el párrafo display
   display.innerHTML = msg;
 });
@@ -26,7 +26,7 @@ socket.on('msg', (msg) => {
   display.innerHTML += "<br> > " + msg;
 });
 
-//-- Botón de envío apretado
+//-- Botón de envío mensaje apretado
 send.onclick = () => {
   //-- Se envía el mensaje escrito
   //-- Usamos el nombre 'msg' para los mensajes de usuario
@@ -38,7 +38,13 @@ send.onclick = () => {
       socket.emit('msg', msg.value);
     }
   }
-
   //-- Borramos el mensaje escrito
   msg.value="";
+}
+
+//-- Botón de envío nombre
+register.onclick = () => {
+  if (name.value){
+    socket.emit('name', name.value);
+  }
 }
