@@ -6,12 +6,12 @@
   <br>
   <span style="padding-left: 2%">Precio --> {{producto.precio}}€</span>
 </div>
-<form action="comprar" method="post" style="padding-left: 2%">
+<form action="pedir" method="post" style="padding-left: 2%">
     {% csrf_token %}
     <label>Nombre: </label>
     <input type="text" name="nombre" value="" required/>
     <input type="text" name="prodname" value="{{producto.nombre}}" readonly/>
-    <input type="submit" value="comprar"/>
+    <input type="submit" value="Añadir al carrito"/>
 </form>
 <br>
 <a href="/mi_tienda" style="padding-left: 2%">Volver a la pagina principal</a>

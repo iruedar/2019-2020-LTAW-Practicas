@@ -3,14 +3,16 @@
 {%load staticfiles%}
 <form class="" action="carrito_cliente" method="post">
     {% csrf_token %}
-    <label >Nombre: </label>
+    <label style="padding-left: 1%">Nombre: </label>
     <input type="text" name="nombre" value="" required/>
     <input type="submit" value="OK"/>
 </form>
-{%if registered%}
-    <p>Productos:</p>
-    <p>{{carrito|unordered_list}}</p>
-    <p>Total: {{precio}} €</p>
+{%if registered == "true"%}
+    <p style="padding-left: 2%">Productos:</p>
+    <div style="padding-left: 4%">
+        <p>{{carrito|unordered_list}}</p>
+    </div>
+    <p style="padding-left: 2%">Total: {{precio}} €</p>
 {%endif%}
 <br>
 <a href="/mi_tienda">Volver a la pagina principal</a>

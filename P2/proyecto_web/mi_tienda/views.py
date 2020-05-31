@@ -30,7 +30,7 @@ def carrito(request, a):
             context={'registered': 'false', 'carrito': '', 'precio': ''}
     return render (request, 'carrito.html', context)
 
-def compra(request):
+def pedido(request):
     nombre=request.POST['nombre']
     prodname=request.POST['prodname']
     try:
