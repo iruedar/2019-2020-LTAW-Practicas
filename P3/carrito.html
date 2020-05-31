@@ -15,10 +15,13 @@
         <h3>Para finalizar la compra introduzca los siguientes campos obligatorios:</h3>
       </div>
       <form method="post" action="/mycart">
-        Nombre: <input type="text" name="name" id="name" placeholder="Nombre" autocomplete="off" required/><br>
-        Apellidos: <input type="text" name="surname" id="surname" placeholder="Apellidos" autocomplete="off" required/><br>
-        Correo electrónico: <input type="email" name="correo" id="correo" placeholder="Correo" autocomplete="off" required/><br>
-        Método de pago: <input type="text" name="pago" id="pago" placeholder="Pago" autocomplete="off" required/><br>
+        Nombre: <input type="text" name="name" placeholder="Nombre" autocomplete="off" required/><br>
+        Apellidos: <input type="text" name="surname" placeholder="Apellidos" autocomplete="off" required/><br>
+        Correo electrónico: <input type="email" name="correo" placeholder="Correo" autocomplete="off" required/><br>
+        <p>Método de pago:</p>
+        Paypal<input type="radio" name="pago" value="Paypal" checked/><br>
+        Tarjeta de crédito<input type="radio" name="pago" value="Tarjeta"/><br>
+        Tranferencia<input type="radio" name="pago" value="Transferencia"/><br>
         <input type="submit" value="Consultar carrito" id="button"/>
         <option id="resultado"></option>
       </form>
