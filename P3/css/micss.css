@@ -2,12 +2,13 @@ header{
   background-color: gray;
   color: orange;
   text-align: center;
-  font-size: 30px;
-  padding: 3px;
+  font-size: 50px;
+  padding: 1px;
   border-radius: 25px;
 }
 body{
   background-color: orange;
+  font-family: 'Roboto Condensed', sans-serif;
 }
 img{
   width: 85%;
@@ -67,5 +68,5 @@ h3{
   border-radius: 45px;
 }
 .precio{
-  text-align: center; 
+  text-align: center;
 }
