@@ -2,12 +2,13 @@ header{
   background-color: gray;
   color: orange;
   text-align: center;
-  font-size: 30px;
+  font-size: 50px;
   padding: 3px;
   border-radius: 25px;
 }
 body{
   background-color: orange;
+  font-family: 'Roboto Condensed', sans-serif;
 }
 img{
   width: 85%;
@@ -17,6 +18,7 @@ img{
 }
 span{
   color: black;
+  font-size: 25px;
 }
 footer {
   text-align: center;
