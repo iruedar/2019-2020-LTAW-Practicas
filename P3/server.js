@@ -220,12 +220,13 @@ http.createServer( (req, res) => {
                     <div class="reg_tit">
                       <h3>Ticket de compra:</h3>
                     </div>
-                    <div>
+                    <div class="Bprod">
                       <p>`
               content += 'Nombre: ' + name_client + "<br> Apellidos: "
                           + surname + "<br> Email: " + correo
                           + "<br>Forma de pago: " + pago
                           + "<br>Tus productos son: <br>" + productos;
+              content +=
                     `</p>
                     </div>
                   </div>

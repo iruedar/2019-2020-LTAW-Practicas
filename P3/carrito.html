@@ -12,17 +12,17 @@
     <br>
     <div class="container">
       <div class="reg_tit">
-        <h3>Para finalizar la compra introduzca los siguientes campos obligatorios:</h3>
+        <h3>Para consultar el carrito introduzca los siguientes campos obligatorios:</h3>
       </div>
-      <form method="post" action="/mycart">
-        Nombre: <input type="text" name="name" placeholder="Nombre" autocomplete="off" required/><br>
-        Apellidos: <input type="text" name="surname" placeholder="Apellidos" autocomplete="off" required/><br>
-        Correo electrónico: <input type="email" name="correo" placeholder="Correo" autocomplete="off" required/><br>
-        <p>Método de pago:</p>
-        Paypal<input type="radio" name="pago" value="Paypal" checked/><br>
+      <form class="register" method="post" action="/mycart">
+        Nombre: <br><input type="text" name="name" placeholder="Nombre" class="busq" autocomplete="off" required/><br><br>
+        Apellidos: <br><input type="text" name="surname" placeholder="Apellidos" class="busq" autocomplete="off" required/><br><br>
+        Correo electrónico: <br><input type="email" name="correo" placeholder="Correo" class="busq" autocomplete="off" required/><br><br>
+        Método de pago: <br>
+        Paypal<input type="radio" name="pago" value="Paypal" checked /><br>
         Tarjeta de crédito<input type="radio" name="pago" value="Tarjeta"/><br>
-        Tranferencia<input type="radio" name="pago" value="Transferencia"/><br>
-        <input type="submit" value="Consultar carrito" id="button"/>
+        Tranferencia<input type="radio" name="pago" value="Transferencia"/><br><br>
+        <center><input type="submit" value="Consultar carrito" class="button"/></center>
         <option id="resultado"></option>
       </form>
     </div>

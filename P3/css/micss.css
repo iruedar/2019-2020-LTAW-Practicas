@@ -18,6 +18,7 @@ img{
 }
 span{
   color: black;
+  font-size: 20px;
 }
 footer {
   text-align: center;
@@ -42,6 +43,7 @@ h3{
   text-align: center;
   margin-top: 5%;
   margin-left: 10%;
+  font-size: 30px;
 }
 .descripcion{
   text-align: left;
@@ -53,20 +55,41 @@ h3{
 .register{
   margin-left: 15%;
   margin-right: 50%;
+  font-size: 30px;
 }
 .reg_tit{
   text-align: center;
+  font-size: 30px;
 }
 .container{
   margin-top: 5%;
-  margin-bottom: 15%;
-  margin-left: 35%;
-  margin-right: 50%;
-  width: 20%;
+  margin-bottom: 8%;
+  margin-left: 32.5%;
+  width: 35%;
   border: 2px solid gray;
   padding: 15px;
   border-radius: 45px;
 }
 .precio{
   text-align: center;
+}
+.button{
+  padding: 8px 10px;
+  border-radius: 45px;
+  margin-left: 0.5%;
+  font-size: 20px;
+}
+.busq{
+  margin-left: 2%;
+  padding: 8px 10px;
+  border-radius: 45px;
+  font-size: 20px;
+}
+.Bprod{
+  font-size: 30px;
+  margin-left: 2%;
+}
+input[type=radio] {
+  width: 18px;
+  height: 2em;
 }

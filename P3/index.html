@@ -2,9 +2,10 @@
 <html lang="es" dir="ltr">
   <head>
     <meta charset="utf-8">
-    <title>Mi tienda</title>
+    <title>Futsal Store</title>
     <link href="https://fonts.googleapis.com/css2?family=Roboto+Condensed&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="/css/micss.css">
+    <link rel="stylesheet" href="css/micss.css">
+    <link rel="icon" href="img/pelota.jpg" type="image/x-icon">
     <script src="client.js" defer></script>
   </head>
   <body>
@@ -13,10 +14,10 @@
     </header>
     <br>
     <a href="carrito.html"><img src="/img/carrito.png" style="width: 2.5%; padding-bottom: 1.5%; float:right"/></a>
-    <a href="registro.html"><h3 style="float:right; margin-right: 12px; margin-left: 12px">Registrarse</h3></a>
+    <a href="registro.html"><h3 style="font-size: 30px; float:right; margin-right: 12px; margin-left: 12px">Registrarse</h3></a>
     <form action="/myform" method="post">
-      <span>Buscar pruducto: </span><br>
-      <input type="search" id="ver" name="nombre" placeholder="Buscar..." autocomplete="off" list="productos"/><input type="submit" value="Buscar"/>
+      <span class="Bprod">Buscar producto: </span><br>
+      <input type="search" id="ver" name="nombre" placeholder="Buscar..." autocomplete="off" list="productos" class="busq"/><input type="submit" value="Buscar" class="button"/>
       <datalist id="productos">
           <option id="resultado"></option>
       </datalist>
