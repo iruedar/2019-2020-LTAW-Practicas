@@ -10,6 +10,7 @@ class Producto(models.Model):
     precio = models.FloatField()
     img = models.CharField(max_length=50)
     path = models.CharField(max_length=50)
+    descripcion = models.CharField(max_length=1100, default="descripción")
 
     # -- Usamos el nombre para identificar
     # -- el producto
