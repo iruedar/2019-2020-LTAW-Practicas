@@ -3,6 +3,7 @@
 {%load staticfiles%}
 <form class="" action="carrito_cliente" method="post">
     {% csrf_token %}
+    <p>Para consultar el carrito introduzca el nombre del cliente con un pedido</p>
     <label style="padding-left: 1%;">Nombre: </label>
     <input type="text" name="nombre" value="" required/>
     <input type="submit" value="OK"/>
@@ -12,10 +13,14 @@
     <div style="padding-left: 4%;">
         <p>{{carrito|unordered_list}}</p>
     </div>
-    <p style="padding-left: 2%; margin-bottom: 13%;">Total: {{precio}} €</p>
+    <p style="padding-left: 2%;">Total: {{precio}} €</p>
     <br>
 {%else%}
-    <p style="padding-left: 2%; margin-bottom: 20%;">Cliente sin productos en el carrito</p>
+    <p style="padding-left: 2%;">Clientes con pedido: </p>
 {%endif%}
+{% for cliente in clientes %}
+  <p style="padding-left: 3.5%;">-{{cliente.cliente}}</p>
+{% endfor %}
+<p style="margin-bottom: 13%;"></p>
 <a href="/mi_tienda">Volver a la pagina principal</a>
 {%endblock%}

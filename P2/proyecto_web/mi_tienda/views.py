@@ -20,14 +20,15 @@ def producto(request, prodpath):
         return HttpResponse("Error 404: File not found")
 
 def carrito(request, a):
+    clientes = Carrito.objects.all()
     if a == 'show':
-        context={'registered': 'false', 'carrito': '', 'precio': ''}
+        context={'registered': 'false', 'carrito': '', 'precio': '', 'clientes': clientes}
     else:  # -- Carrito_cliente
         try:
             c = Carrito.objects.get(cliente=request.POST['nombre'])
             context={'registered': 'true', 'carrito': json.loads(c.productos), 'precio': str(c.precio)}
         except:
-            context={'registered': 'false', 'carrito': '', 'precio': ''}
+            context={'registered': 'false', 'carrito': '', 'precio': '', 'clientes': clientes}
     return render (request, 'carrito.html', context)
 
 def pedido(request):
