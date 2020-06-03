@@ -36,12 +36,13 @@ def pedido(request):
     prodname=request.POST['prodname']
     try:
         c = Carrito.objects.get(cliente=nombre)
-    except :
+    except : #-- Carrito vacio en ese cliente
         c = Carrito(cliente=nombre)
     p = json.loads(c.productos)
     producto = Producto.objects.get(nombre=prodname)
     if producto.stock > 0:
         if producto.nombre in p:
+            ##-- indice donde esta el producto, +1 para modificar la cantidad [producto,[cantidad],producto2,[cantidad]]
             p[p.index(producto.nombre)+1][0] += 1
         else:
             p.append(producto.nombre)
