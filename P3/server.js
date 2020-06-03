@@ -3,6 +3,7 @@ const url = require('url');
 const fs = require('fs');
 const PUERTO = 8080
 let productos = ["Adidas Top Sala", "Joma Top Flex", "Kelme Precision Elite", "Mizuno Morelia", "Munich Continental", "New Balance Audazo", "Nike Lunar Gato", "Puma Future"];
+let precios = [59.99, 49.9, 44.9, 48.9, 89.9, 59.9, 75.9, 39.9];
 let resultado = "";
 let name = "";
 let pwd = "";
@@ -121,6 +122,7 @@ http.createServer( (req, res) => {
         data = chunk.toString();
         prod = data.split("=")[0];
         name = data.split("=")[1];
+        let precio = 0.0;
         user_new = true;
         if (!cookie) {
           file_name = "registro.html";
@@ -128,8 +130,13 @@ http.createServer( (req, res) => {
           add_cart = "";
           for (var i = 0; i < cookie.split("; ").length; i++) {
             if (cookie.split("; ")[i].split("=")[0] == name) {
+              for (var j = 0; j < productos.length; j++) {
+                if (productos[j].replace(/[ ]/gi,"")== prod) { //-- Expresiones regulares
+                  precio = precios[j];
+                }
+              }
               user_new = false;
-              add_cart = cookie.split("; ")[i].split("=")[1] += prod += "/";
+              add_cart = cookie.split("; ")[i].split("=")[1] + prod + "&" + precio + "/";
               res.setHeader('Set-Cookie', name+"="+add_cart);
               file_name = "index.html";
             }
@@ -159,11 +166,12 @@ http.createServer( (req, res) => {
         data = chunk.toString();
         var name_client = data.split("&")[0].split("=")[1];
         var surname = data.split("&")[1].split("=")[1];
-        var correo = data.split("&")[2].split("=")[1];
+        var correo = data.split("&")[2].split("=")[1].replace("%40", "@");
         var pago = data.split("&")[3].split("=")[1];
         var cart = "";
         var carrito = "";
-        var productos = "";
+        var producto = "";
+        var precio = 0.0;
         user_new = true;
         if (!cookie) {
           file_name = "registro.html";
@@ -172,31 +180,32 @@ http.createServer( (req, res) => {
             if (cookie.split("; ")[i].split("=")[0] == name_client) {
               cart = cookie.split("; ")[i].split("=")[1].split(":")[1];
               for (var i = 0; i < cart.split("/").length -1; i++) {
-                carrito = cart.split("/")[i];
+                carrito = cart.split("/")[i].split("&")[0];
+                precio += parseFloat(cart.split("/")[i].split("&")[1]);
                 switch (carrito) {
                   case "AdidasTopSala":
-                    productos += "Adidas Top Sala<br>";
+                    producto += "Adidas Top Sala<br>";
                     break;
                   case "JomaTopFlex":
-                    productos += "Joma Top Flex<br>";
+                    producto += "Joma Top Flex<br>";
                     break;
                   case "KelmePrecisionElite":
-                    productos += "Kelme Precisión Elite<br>";
+                    producto += "Kelme Precisión Elite<br>";
                     break;
                   case "MizunoMorelia":
-                    productos += "Mizuno Morelia<br>";
+                    producto += "Mizuno Morelia<br>";
                     break;
                   case "MunichContinental":
-                    productos += "Munich Continental<br>";
+                    producto += "Munich Continental<br>";
                     break;
                   case "NewBalanceAudazo":
-                    productos += "New Balance Audazo<br>";
+                    producto += "New Balance Audazo<br>";
                     break;
                   case "NikeLunarGato":
-                    productos += "Nike Lunar Gato<br>";
+                    producto += "Nike Lunar Gato<br>";
                     break;
                   case "PumaFuture":
-                    productos += "Puma Future<br>";
+                    producto += "Puma Future<br>";
                     break;
                   default:
                     //
@@ -225,7 +234,8 @@ http.createServer( (req, res) => {
               content += 'Nombre: ' + name_client + "<br> Apellidos: "
                           + surname + "<br> Email: " + correo
                           + "<br>Forma de pago: " + pago
-                          + "<br>Tus productos son: <br>" + productos;
+                          + "<br>Tus productos son: <br>" + producto
+                          + "<br>Precio total: " + precio;
               content +=
                     `</p>
                     </div>
