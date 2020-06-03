@@ -47,7 +47,7 @@ io.on('connection', function(socket){
     console.log("Cliente: " + socket.id + ': ' + msg);
     let mess = "";
     if (msg == "/help") {
-      mess += "/help = Mostrar comando; /list = Número de usuarios conectados; "
+      mess += "/help = Mostrar comandos; /list = Número de usuarios conectados; "
       mess += "/hello = Servidor envía un saludo; /date = Fecha actual"
     }else if (msg == "/list") {
       mess += "Número de usuarios conectados = " + clients.toString();
