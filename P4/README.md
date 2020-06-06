@@ -1,6 +1,6 @@
 # Práctica 4
 
-La práctica 4 trata de realizar un chat en el que múltiples usuarios puedan hablar entre sí a partir de un servidor hecho con nodejs. Para poder tener una comunicación Cliente-Servidor bidireccional utilizaremos express y websockets. Los ficheros de la práctica se encuentran en la carpeta P3/Chat.
+La práctica 4 trata de realizar un chat en el que múltiples usuarios puedan hablar entre sí a partir de un servidor hecho con nodejs. Para poder tener una comunicación Cliente-Servidor bidireccional utilizaremos express y websockets. Los ficheros de la práctica se encuentran en la carpeta P4/Chat.
 
 Para ejecutar el servidor web debemos estar en la carpeta P4/Chat en el terminal e introducir el comando node chat_server.js o npm start. Después para acceder a la pagina web hay que introducir en el navegador la URL: http://localhost:8080, ya que en el servidor escucha en el puerto 8080.
 
