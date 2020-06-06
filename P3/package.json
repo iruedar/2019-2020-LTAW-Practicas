@@ -1,0 +1,12 @@
+{
+  "name": "Mi tienda: Futsal Store",
+  "version": "1.0.0",
+  "description": "",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "author": "Ignacio Rueda",
+  "license": "ISC",
+  "dependencies": {}
+}

@@ -4,8 +4,6 @@ console.log("Ejecutando cliente JS...");
 const display = document.getElementById("display");
 const msg = document.getElementById("msg");
 const send = document.getElementById("send");
-const name = document.getElementById("name_client");
-const register = document.getElementById("reg_client");
 var user = prompt("¿Cuál es tu nombre?");
 
 //-- Crear un websocket. Se establece la conexión con el servidor
@@ -21,6 +19,7 @@ socket.on('hello', (msg) => {
   display.innerHTML = msg;
 });
 
+//-- Usuario registrado
 socket.emit('name', user);
 
 //-- Se ha recibido un mensaje

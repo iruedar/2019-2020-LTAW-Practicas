@@ -56,7 +56,7 @@ io.on('connection', function(socket){
     }else if (msg == "/date") {
       mess += new Date();
     }else {
-      mess += "Comando incorrecto, /help para más información"
+      mess += "SERVER: Comando incorrecto, /help para más información"
     }
     socket.emit('msg', mess);
     console.log("Cliente: " + socket.id + ': ' + msg);
