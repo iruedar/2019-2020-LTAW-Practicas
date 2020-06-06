@@ -1,10 +1,10 @@
 {
-  "name": "l9",
+  "name": "Chat",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
+  "main": "chat_server.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start": "node chat_server.js"
   },
   "author": "Ignacio Rueda",
   "license": "ISC",
